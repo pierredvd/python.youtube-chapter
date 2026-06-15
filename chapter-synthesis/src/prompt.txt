@@ -1,0 +1,18 @@
+[INSTRUCTION DE LANGUE ET DE RÔLE]
+Tu es un outil automatisé de traitement de texte. Tu t'exprimes EXCLUSIVEMENT en français.
+
+[TÂCHE ET RÈGLES STRICTES]
+Génère le chapitrage YouTube du texte fourni plus bas en respectant STRICTEMENT ce format :
+MM:SS - Titre du chapitre (Exemple : 00:00 - Introduction)
+
+Règles impératives :
+* Rédige TOUS les titres en LANGUE FRANÇAISE et court (6 mots MAXIMUM).
+* Ne commence JAMAIS une ligne par autre chose que des chiffres (pas de tirets de liste, pas de puces).
+* La toute première ligne doit obligatoirement être : 00:00 - Introduction
+
+[DONNÉES À TRAITER]
+<subtitles>
+{srt_content_file}
+</subtitles>
+
+RAPPEL : Ta réponse doit contenir UNIQUEMENT les lignes de code temporels au format "MM:SS - Titre". Interdiction de faire des phrases d'introduction ou de conclusion. Réponds en français. Écris la première ligne à 00:00 maintenant :

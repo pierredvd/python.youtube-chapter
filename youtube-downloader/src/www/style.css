@@ -1,0 +1,79 @@
+#search-video{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    height: 90px;
+    width: 800px;
+    margin: -150px 0px 0px -400px;
+    border: solid 1px #888888;
+    border-radius: 5px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+#search-video > label{
+    display: block;
+    font-family: Arial;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    color: #444444;
+    box-sizing: border-box;
+}
+#search-video > input[type="text"]{
+    position: relative;
+    display: block;
+    height: 30px;
+    width: 100%;
+    font-family: Arial;
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    border:solid 1px #888888;
+    border-radius: 3px;
+    z-index: 1
+}
+#search-video #search-video-downloading{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 3
+}
+#search-video #search-video-downloading > #search-video-downloading-progress{
+    display: block;
+    height: 100%;
+    width: 0%;
+    background-color: rgba(128, 128, 128, 0.5);
+    z-index: 4
+}
+#search-video.downloading #search-video-downloading{
+    display: block;
+}
+
+#search-video > input[type="text"].error{
+    border:solid 1px #f44336;
+}
+#search-video > input[type="submit"]{
+    position: relative;
+    display: block;
+    height: 30px;
+    width: 50px;
+    float: right;
+    background-color: #008CBA;
+    color: white;
+    font-weight: 400;
+    border: none;
+    border-radius: 0px 3px 3px 0px;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 14px;
+    margin-top: -30px;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    z-index: 2
+}

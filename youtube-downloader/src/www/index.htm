@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+    <head>
+        <link href="style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="search-video">
+            <div id="search-video-downloading"><div id="search-video-downloading-progress"></div></div>
+            <label>Search youtube video</label>
+            <input id="url" type="text" placeholder="https://www.youtube.com/watch?v=" />
+            <input id="btn" type="submit" value="Go" />
+        </div>
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous">
+        </script>
+        <script type="text/javascript">
+            function WS(url){
+
+                const __this = this
+                var __ws = null
+                var __url = null
+                var __connected = false
+
+                function __construct(url){
+                    __url = url
+                    __reconnect()
+                }   
+
+                function __reconnect(){
+                    if(!__connected){
+                        __ws = new WebSocket(__url)
+                        __ws.addEventListener("message", (event) => {
+                            __this.onmessage(event)
+                        })
+                        __ws.addEventListener("open", (event) => {
+                            if(!__connected){
+                                console.log('ws connected')
+                                __connected = true
+                            }
+                        })
+                        __ws.addEventListener("close", (event) => {
+                            if(__connected){
+                                console.log('ws disconnected')
+                                __connected = false
+                                __reconnect()
+                            }
+                        })
+                        window.setTimeout(() => {
+                            __reconnect()
+                        }, 1000)
+                    }
+                }
+
+                this.send = (message) => {
+                    if(__connected){
+                        __ws.send(video_hash)
+                    }
+                }
+
+                this.onmessage = (callback) => {}
+
+                __construct(url)
+
+            }
+        </script>     
+        <script type="text/javascript" defer="defer">
+            $(document).ready(() => {
+                const base_url = "https://www.youtube.com/watch?v="
+                const ws = new WS("ws://localhost:8080/ws");
+                ws.onmessage = function(event) {
+                    let data = JSON.parse(event.data)
+                    switch(data.status){
+                        case "started":
+                            $('#search-video').addClass('downloading')
+                            $('#search-video-downloading-progress').css('width', '0%')
+                            break
+                        case "progress":
+                            let pourcent = data.downloaded / data.total
+                            $('#search-video').addClass('downloading')
+                            $('#search-video-downloading-progress').css('width', Math.round(pourcent*100)+'%')
+                            break
+                        case "complete":
+                            console.log('complete!!!')
+                            $('#search-video-downloading-progress').css('width', '100%')
+                            $('#search-video').addClass('downloading')
+                            window.setTimeout(() => {
+                                $('#search-video').removeClass('downloading')
+                            }, 1000)
+                            break
+                    }
+                }
+                $('#btn').click(() => {
+                    $('#url').removeClass('error')
+                    let url = $('#url').val()
+                    if(
+                        url.length > base_url.length &&
+                        url.substring(0, base_url.length)==base_url){
+                        video_hash = url.substring(base_url.length, url.length)
+                        ws.send(video_hash)
+                    } else {
+                        console.error('invalid url')
+                        $('#url').addClass('error')
+                    }
+                })
+            })
+        </script>
+    </body>
+</html>

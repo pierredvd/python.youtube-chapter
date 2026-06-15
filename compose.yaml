@@ -1,0 +1,23 @@
+services:
+  youtube-downloader:
+    build:
+      context: ./youtube-downloader/
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./volumes/videos:/etc/youtube-downloader/download
+  video-transcriptor:
+    build:
+      context: ./video-transcriptor/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./volumes/videos:/etc/video-transcriptor/videos
+      - ./volumes/subtitles:/etc/video-transcriptor/subtitles
+  chapter-synthesis:
+    build:
+      context: ./chapter-synthesis/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./volumes/subtitles:/etc/chapter-synthesis/subtitles
+      - ./volumes/chapters:/etc/chapter-synthesis/chapters
